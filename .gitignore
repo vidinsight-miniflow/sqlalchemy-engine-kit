@@ -191,8 +191,17 @@ cython_debug/
 # Ruff stuff:
 .ruff_cache/
 
-# PyPI configuration file
+# PyPI configuration file (keep template, ignore actual)
 .pypirc
+!.pypirc.template
+
+# Example database files
+*.db
+!*.db.example
+
+# Alembic example files (from examples)
+alembic.ini
+alembic_migrations/
 
 # Cursor
 #  Cursor is an AI-powered code editor. `.cursorignore` specifies files/directories to

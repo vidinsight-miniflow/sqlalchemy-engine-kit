@@ -1,0 +1,25 @@
+# Include README and license
+include README.md
+include LICENSE
+include CHANGELOG.md
+
+# Include documentation
+recursive-include docs *.md
+
+# Include requirements files
+include requirements.txt
+include requirements-dev.txt
+
+# Include pytest configuration
+include pytest.ini
+
+# Exclude cache and build artifacts
+global-exclude __pycache__
+global-exclude *.py[cod]
+global-exclude *.so
+global-exclude .DS_Store
+global-exclude *.egg-info
+recursive-exclude tests *
+recursive-exclude .pytest_cache *
+recursive-exclude .git *
+
