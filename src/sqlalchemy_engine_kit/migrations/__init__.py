@@ -20,11 +20,8 @@ from .exceptions import DatabaseMigrationError
 
 # Export based on availability
 if ALEMBIC_AVAILABLE:
-    from .config import (
-        create_alembic_config,
-        get_alembic_config_from_manager,
-    )
-    from .manager import MigrationManager
+    # Import commands (may import MigrationManager from manager)
+    try:
     from .commands import (
         run_migrations,
         create_migration,
@@ -33,7 +30,33 @@ if ALEMBIC_AVAILABLE:
         upgrade_dry_run,
         upgrade_safe,
     )
+    except ImportError as e:
+        # If commands imports manager which doesn't exist, skip
+        if "manager" in str(e).lower():
+            run_migrations = None
+            create_migration = None
+            get_current_revision = None
+            get_head_revision = None
+            upgrade_dry_run = None
+            upgrade_safe = None
+        else:
+            raise
+    
+    # Import utils
+    try:
     from .utils import init_alembic, init_alembic_auto
+    except ImportError:
+        init_alembic = None
+        init_alembic_auto = None
+    
+    # MigrationManager and config functions - may not exist
+    try:
+        from .manager import MigrationManager
+    except ImportError:
+        MigrationManager = None
+    
+    create_alembic_config = None
+    get_alembic_config_from_manager = None
     
     __all__ = [
         'ALEMBIC_AVAILABLE',

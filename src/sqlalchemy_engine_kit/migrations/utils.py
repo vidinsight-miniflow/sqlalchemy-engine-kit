@@ -9,7 +9,15 @@ from typing import Optional, Any, TYPE_CHECKING
 
 from ..core.logging import LoggerAdapter
 from .exceptions import DatabaseMigrationError
-from .config import ALEMBIC_AVAILABLE
+# Check Alembic availability locally
+try:
+    from alembic import config as alembic_config
+    from alembic import command
+    ALEMBIC_AVAILABLE = True
+except ImportError:
+    ALEMBIC_AVAILABLE = False
+    alembic_config = None
+    command = None
 
 if TYPE_CHECKING:
     from ..engine.engine import DatabaseEngine

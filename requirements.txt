@@ -1,0 +1,36 @@
+# VidInsight SQLAlchemy Engine Kit - Production Dependencies
+# Pin exact versions for production stability
+
+# Core Dependencies
+sqlalchemy==2.0.23
+typing-extensions==4.8.0
+
+# Optional Dependencies (install as needed)
+# Uncomment based on your requirements:
+
+# Database Drivers
+# psycopg2-binary==2.9.9      # PostgreSQL
+# pymysql==1.1.0              # MySQL
+# mysqlclient==2.2.0          # MySQL (C-based, faster)
+
+# Migrations
+# alembic==1.12.1             # Database migrations
+
+# Monitoring
+# prometheus-client==0.19.0   # Prometheus metrics
+
+# Environment Configuration
+# python-dotenv==1.0.0        # .env file support
+
+# Async Support (if needed)
+# asyncpg==0.29.0             # PostgreSQL async
+# aiomysql==0.2.0             # MySQL async
+
+# Production Recommendations:
+# - Pin all versions for reproducible builds
+# - Test upgrades in staging before production
+# - Keep a separate requirements-dev.txt for development
+# - Use pip-compile or poetry for dependency resolution
+
+
+

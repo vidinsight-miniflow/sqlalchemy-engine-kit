@@ -7,7 +7,12 @@ These functions work with both DatabaseEngine and DatabaseManager instances.
 
 from typing import Optional, Union, TYPE_CHECKING
 
+# MigrationManager may not exist - handle gracefully
+try:
 from .manager import MigrationManager
+except ImportError:
+    # MigrationManager not implemented yet
+    MigrationManager = None
 from .exceptions import DatabaseMigrationError
 
 if TYPE_CHECKING:
@@ -44,6 +49,13 @@ def run_migrations(
         >>> manager.initialize(config, auto_start=True)
         >>> run_migrations(manager, revision="head")
     """
+    if MigrationManager is None:
+        raise ImportError(
+            "MigrationManager is not available. "
+            "Alembic may not be installed or MigrationManager implementation is missing. "
+            "Install with: pip install alembic"
+        )
+    
     engine = _extract_engine(engine_or_manager)
     mgr = MigrationManager(engine, script_location=script_location)
     mgr.upgrade(revision)
@@ -79,6 +91,13 @@ def create_migration(
         >>> # Create manual migration
         >>> create_migration(engine, "custom_changes", autogenerate=False)
     """
+    if MigrationManager is None:
+        raise ImportError(
+            "MigrationManager is not available. "
+            "Alembic may not be installed or MigrationManager implementation is missing. "
+            "Install with: pip install alembic"
+        )
+    
     engine = _extract_engine(engine_or_manager)
     mgr = MigrationManager(engine, script_location=script_location)
     return mgr.create_migration(message, autogenerate=autogenerate)
@@ -111,6 +130,13 @@ def get_current_revision(
         >>> else:
         ...     print("No migrations applied")
     """
+    if MigrationManager is None:
+        raise ImportError(
+            "MigrationManager is not available. "
+            "Alembic may not be installed or MigrationManager implementation is missing. "
+            "Install with: pip install alembic"
+        )
+    
     engine = _extract_engine(engine_or_manager)
     mgr = MigrationManager(engine, script_location=script_location)
     return mgr.get_current_revision()
@@ -140,6 +166,13 @@ def get_head_revision(
         >>> head = get_head_revision(manager)
         >>> print(f"Latest migration: {head}")
     """
+    if MigrationManager is None:
+        raise ImportError(
+            "MigrationManager is not available. "
+            "Alembic may not be installed or MigrationManager implementation is missing. "
+            "Install with: pip install alembic"
+        )
+    
     engine = _extract_engine(engine_or_manager)
     mgr = MigrationManager(engine, script_location=script_location)
     return mgr.get_head_revision()
@@ -175,6 +208,13 @@ def upgrade_dry_run(
         >>> if review_sql(sql):
         ...     run_migrations(manager, revision="head")
     """
+    if MigrationManager is None:
+        raise ImportError(
+            "MigrationManager is not available. "
+            "Alembic may not be installed or MigrationManager implementation is missing. "
+            "Install with: pip install alembic"
+        )
+    
     engine = _extract_engine(engine_or_manager)
     mgr = MigrationManager(engine, script_location=script_location)
     return mgr.upgrade_dry_run(revision)
@@ -203,6 +243,13 @@ def upgrade_safe(
     Raises:
         DatabaseMigrationError: Invalid argument or upgrade failed
     """
+    if MigrationManager is None:
+        raise ImportError(
+            "MigrationManager is not available. "
+            "Alembic may not be installed or MigrationManager implementation is missing. "
+            "Install with: pip install alembic"
+        )
+    
     engine = _extract_engine(engine_or_manager)
     mgr = MigrationManager(engine, script_location=script_location)
     return mgr.upgrade_safe(revision, verify=verify)
